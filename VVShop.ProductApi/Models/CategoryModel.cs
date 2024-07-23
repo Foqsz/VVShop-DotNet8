@@ -1,7 +1,10 @@
-﻿namespace VVShop.ProductApi.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VVShop.ProductApi.Models;
 
 public class CategoryModel
 {
+    [Key]
     public int CategoryId { get; set; }
     public string? Name { get; set; }
 
