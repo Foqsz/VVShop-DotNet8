@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VVShop.ProductApi.Context;
+using VVShop.ProductApi.VVShop.Infrastucture.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
 });
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Garantindo que to obtendo todos os assemblys do meu contexto
 
 var app = builder.Build();
 

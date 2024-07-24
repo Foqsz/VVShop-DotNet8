@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VVShop.ProductApi.Models;
+using VVShop.ProductApi.VVShop.Core.Models;
 
-namespace VVShop.ProductApi.Context
+namespace VVShop.ProductApi.VVShop.Infrastucture.Context
 {
     public class AppDbContext : DbContext
     {

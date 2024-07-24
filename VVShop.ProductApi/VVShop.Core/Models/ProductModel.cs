@@ -1,4 +1,4 @@
-﻿namespace VVShop.ProductApi.Models;
+﻿namespace VVShop.ProductApi.VVShop.Core.Models;
 
 public class ProductModel
 {
