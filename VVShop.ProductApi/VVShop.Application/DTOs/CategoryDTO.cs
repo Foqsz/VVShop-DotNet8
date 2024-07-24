@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using VVShop.ProductApi.VVShop.Core.Models;
 
 namespace VVShop.ProductApi.VVShop.Application.DTOs
@@ -12,6 +13,7 @@ namespace VVShop.ProductApi.VVShop.Application.DTOs
         [MaxLength(100)]
         public string? Name { get; set; }
 
+        [JsonIgnore]
         public ICollection<ProductModel>? Products { get; set; }
     }
 }
