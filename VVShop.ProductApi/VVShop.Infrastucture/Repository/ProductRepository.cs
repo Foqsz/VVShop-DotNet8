@@ -15,12 +15,13 @@ namespace VVShop.ProductApi.VVShop.Infrastucture.Repository
 
         public async Task<IEnumerable<ProductModel>> GetProductAll()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Product.Include(c => c.Category).ToListAsync();   
         }
 
         public async Task<ProductModel> GetProductById(int id)
         {
-            return await _context.Product.Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _context.Product.Include(p => p.Category).Where(c => c.Id == id).FirstOrDefaultAsync();
+
         }
 
         public async Task<ProductModel> GetProductCreate(ProductModel product)

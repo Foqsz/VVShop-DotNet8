@@ -9,7 +9,7 @@ namespace VVShop.ProductApi.VVShop.Application.DTOs.Mappings
         public MappingProfile()
         {
             CreateMap<CategoryModel, CategoryDTO>().ReverseMap();
-            CreateMap<ProductModel, ProductDTO>().ReverseMap();
+            CreateMap<ProductModel, ProductDTO>().ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
         }
     }
 }
