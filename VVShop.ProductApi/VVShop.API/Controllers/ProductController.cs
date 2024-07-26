@@ -53,20 +53,15 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
             return new CreatedAtRouteResult("GetProduct", new { id = productDto.Id }, productDto); //Getcategory é para retornar a categoria que foi incluida com o id da categoria getcategory
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult> GetProductUpdate(int id, [FromBody] ProductDTO productDto)
-        {
-            if (id != productDto.Id)
-            {
-                return BadRequest("data invalid");
-            }
-
+        [HttpPut()]
+        public async Task<ActionResult> GetProductUpdate([FromBody] ProductDTO productDto)
+        { 
             if (productDto == null)
             {
                 return BadRequest("Data invalid");
             }
 
-            await _productService.GestProductUpdate(productDto);
+            await _productService.GetProductUpdate(productDto);
 
             return Ok(productDto);
         }

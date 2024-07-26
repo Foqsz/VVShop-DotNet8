@@ -35,7 +35,7 @@ namespace VVShop.ProductApi.VVShop.Application.Services
             productDTO.Id = productEntity.Id;
         }
 
-        public async Task GestProductUpdate(ProductDTO productDTO)
+        public async Task GetProductUpdate(ProductDTO productDTO)
         {
             var producEntity = _mapper.Map<ProductModel>(productDTO);
             await _productRepository.GetProductUpdate(producEntity);

@@ -12,7 +12,7 @@ namespace VVShop.ProductApi.VVShop.Application.DTOs
         [MinLength(3)]
         [MaxLength(100)]
         public string? Name { get; set; }
-
+        [JsonIgnore]
         public ICollection<ProductModel>? Products { get; set; }
     }
 }

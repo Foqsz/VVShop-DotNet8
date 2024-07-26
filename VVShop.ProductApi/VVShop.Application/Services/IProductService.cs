@@ -7,7 +7,7 @@ namespace VVShop.ProductApi.VVShop.Application.Services
         Task<IEnumerable<ProductDTO>> GetProductsAll();
         Task<ProductDTO> GetProductById(int id);
         Task GetProductAdd(ProductDTO productDTO);
-        Task GestProductUpdate(ProductDTO productDTO);
+        Task GetProductUpdate(ProductDTO productDTO);
         Task GetProductRemove(int id);
     }
 }
