@@ -15,6 +15,7 @@ builder.Services.AddHttpClient("ProductApi", c =>
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = "Cookies";
