@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication; 
 using VVShop.WebMvc.Services;
 using VVShop.WebMvc.Services.Interfaces;
 
