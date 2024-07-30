@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VVShop.ProductApi.VVShop.Application.DTOs;
 using VVShop.ProductApi.VVShop.Application.Services;
+using VVShop.ProductApi.VVShop.Core.Roles; 
 
 namespace VVShop.ProductApi.VVShop.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -67,6 +70,7 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<ProductDTO>> GetProductDelete(int id)
         {
             var productDto = await _productService.GetProductById(id);
