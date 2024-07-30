@@ -19,7 +19,7 @@ public class IdentityConfiguration
     {
         // vshop é aplicação web que vai acessar // o IdentityServer para obter o token
       
-        new ApiScope("vshop", "Shop Server"),
+        new ApiScope("vvshop", "Shop Server"),
         new ApiScope(name: "read", "Read data."),
         new ApiScope(name: "write", "Write data."),
         new ApiScope(name: "delete", "Delete data."),
@@ -31,7 +31,7 @@ public class IdentityConfiguration
             new Client
             {
                 ClientId = "client",
-                ClientSecrets = { new Secret("foqs#csharp".Sha256()) },
+                ClientSecrets = { new Secret("Foqs#csharp".Sha256()) },
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 AllowedScopes = { "read", "write", "profile" }
             },
