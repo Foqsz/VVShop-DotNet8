@@ -25,7 +25,7 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
             var productDto = await _productService.GetProductsAll();
             if (productDto is null)
             {
-                return NotFound("products not found");
+                return NotFound("products not found.");
             }
 
             return Ok(productDto);
@@ -37,7 +37,7 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
             var productDto = await _productService.GetProductById(id);
             if (productDto is null)
             {
-                return NotFound("product not found");
+                return NotFound("Product not found");
             }
 
             return Ok(productDto);
