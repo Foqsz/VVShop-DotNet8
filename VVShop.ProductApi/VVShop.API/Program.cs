@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
- 
+
 var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -64,14 +64,17 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.Authority =
-        builder.Configuration["VVShop.IdentityServer:ApplicationUrl"];
+        options.Authority = builder.Configuration["VVShop.IdentityServer:ApplicationUrl"];
+
+        // Adicione log para verificar a Authority
+        Console.WriteLine($"JwtBearer Configuration: Authority={options.Authority}");
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false
         };
     });
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -82,8 +85,19 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
