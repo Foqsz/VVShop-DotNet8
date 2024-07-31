@@ -12,4 +12,10 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Shared\_LoginPartial.cshtml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

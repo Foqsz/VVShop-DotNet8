@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = builder.Configuration["ServiceUri: IdentityServer"];
+        options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
         options.GetClaimsFromUserInfoEndpoint = true;
         options.ClientId = "vvshop";
         options.ClientSecret = builder.Configuration["Client:Secret"];

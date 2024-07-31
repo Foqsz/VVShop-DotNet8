@@ -31,7 +31,7 @@ public class IdentityConfiguration
             new Client
             {
                 ClientId = "client",
-                ClientSecrets = { new Secret("Foqs#csharp".Sha256()) },
+                ClientSecrets = { new Secret("foqs#csharp".Sha256()) },
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 AllowedScopes = { "read", "write", "profile" }
             },
@@ -40,13 +40,14 @@ public class IdentityConfiguration
                 ClientId = "vvshop",
                 ClientSecrets = { new Secret("foqs#csharp".Sha256()) },
                 AllowedGrantTypes= GrantTypes.Code, //via codigo
-                RedirectUris = { "https://localhost:7165/signin-oidc"},//login" }
-                PostLogoutRedirectUris = {"https://localhost:7165/signout-callback-oidc" },
+                RedirectUris = { "http://localhost:7019/signin-oidc", "http://localhost:5178/signin-oidc"},//login" }
+                PostLogoutRedirectUris = {"http://localhost:7019/signout-callback-oidc" },
                 AllowedScopes = new List<string>
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes. Profile,
-                    IdentityServerConstants.StandardScopes. Email, "vshop"
+                    IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.Email, 
+                    "vvshop"
                 }
             }
         };
