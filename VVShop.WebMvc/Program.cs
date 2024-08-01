@@ -5,12 +5,16 @@ using VVShop.WebMvc.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient("ProductApi", c =>
 {
-    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:ProductApi"]);
+    c.BaseAddress = new Uri(builder.Configuration[key: "ServiceUri:ProductApi"]);
 });
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -33,29 +37,48 @@ builder.Services.AddAuthentication(options =>
             }
         };
     })
-    .AddOpenIdConnect("oidc", options =>
+.AddOpenIdConnect("oidc", options =>
+{
+    options.Events.OnRemoteFailure = context =>
     {
-        options.Events.OnRemoteFailure = context =>
-        {
-            context.Response.Redirect("/");
-            context.HandleResponse();
+        context.Response.Redirect("/");
+        context.HandleResponse();
+        return Task.FromResult(0);
+    };
 
-            return Task.FromResult(0);
-        };
+    options.Events.OnRedirectToIdentityProvider = context =>
+    {
+        var uri = context.ProtocolMessage.CreateAuthenticationRequestUrl();
+        Console.WriteLine("Redirecting to Identity Provider with URI: " + uri);
+        return Task.CompletedTask;
+    };
 
-        options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
-        options.GetClaimsFromUserInfoEndpoint = true;
-        options.ClientId = "vvshop";
-        options.ClientSecret = builder.Configuration["Client:Secret"];
-        options.ResponseType = "code";
-        options.ClaimActions.MapJsonKey("role", "role", "role");
-        options.ClaimActions.MapJsonKey("sub", "sub", "sub");
-        options.TokenValidationParameters.NameClaimType = "name";
-        options.TokenValidationParameters.RoleClaimType = "role";
-        options.Scope.Add("vvshop");
-        options.SaveTokens = true;
-    }
-);
+    options.Events.OnTokenResponseReceived = context =>
+    {
+        Console.WriteLine("Token response received: " + context.TokenEndpointResponse);
+        return Task.CompletedTask;
+    };
+
+    options.Events.OnAuthorizationCodeReceived = context =>
+    {
+        Console.WriteLine("Authorization code received: " + context.ProtocolMessage.Code);
+        return Task.CompletedTask;
+    };
+
+    options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
+    options.MetadataAddress = $"{builder.Configuration["ServiceUri:IdentityServer"]}/.well-known/openid-configuration";
+    options.GetClaimsFromUserInfoEndpoint = true;
+    options.ClientId = "vvshop";
+    options.ClientSecret = builder.Configuration["Client:Secret"];
+    options.ResponseType = "code";
+    options.ClaimActions.MapJsonKey("role", "role", "role");
+    options.ClaimActions.MapJsonKey("sub", "sub", "sub");
+    options.TokenValidationParameters.NameClaimType = "name";
+    options.TokenValidationParameters.RoleClaimType = "role";
+    options.Scope.Add("vvshop");
+    options.SaveTokens = true;
+});
+
 
 var app = builder.Build();
 

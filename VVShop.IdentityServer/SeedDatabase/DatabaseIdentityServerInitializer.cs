@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using VVShop.IdentityServer.Data;
-using VVShop.IdentityServer.Configuration;
+using VVShop.IdentityServer.Data; 
 using System.Security.Claims;
-using IdentityModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using IdentityModel; 
 using System.Security;
+using VVShop.IdentityServer.Configuration;
 
 namespace VVShop.IdentityServer.SeedDatabase;
 
