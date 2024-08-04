@@ -55,11 +55,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Duende.IdentityServer" Version="7.0.5" />
-    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.5" />
-    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.0.5" />
-    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="7.0.5" />
-    <PackageReference Include="Duende.IdentityServer.Storage" Version="7.0.5" />
+    <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" Version="2.1.2" />
+    <PackageReference Include="Duende.IdentityServer" Version="7.0.6" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.6" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.0.6" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework.Storage" Version="7.0.6" />
+    <PackageReference Include="Duende.IdentityServer.Storage" Version="7.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />

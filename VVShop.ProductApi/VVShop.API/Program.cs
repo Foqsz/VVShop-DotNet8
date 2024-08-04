@@ -82,7 +82,7 @@ builder.Services.AddAuthentication(options =>
 .AddCookie()
 .AddOpenIdConnect(options =>
 {
-    options.Authority = "https://localhost:7002"; // URL do seu IdentityServer
+    options.Authority = "https://localhost:7019"; // URL do seu IdentityServer
     options.ClientId = "vvshop"; // ID do cliente configurado no IdentityServer
     options.ClientSecret = "foqs#csharp"; // Segredo do cliente configurado no IdentityServer
     options.ResponseType = "code";
