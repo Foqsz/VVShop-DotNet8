@@ -1,14 +1,10 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using System.Text.Json.Serialization; 
+using System.Text.Json.Serialization;
 using VVShop.ProductApi.VVShop.Application.Services;
 using VVShop.ProductApi.VVShop.Infrastucture.Context;
 using VVShop.ProductApi.VVShop.Infrastucture.Repository;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,28 +70,17 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddCookie()
-.AddOpenIdConnect(options =>
-{
-    options.Authority = "https://localhost:7019"; // URL do seu IdentityServer
-    options.ClientId = "vvshop"; // ID do cliente configurado no IdentityServer
-    options.ClientSecret = "foqs#csharp"; // Segredo do cliente configurado no IdentityServer
-    options.ResponseType = "code";
-    options.SaveTokens = true;
-    options.CallbackPath = "/signin-oidc"; // Caminho de retorno após login
-    options.SignedOutCallbackPath = "/signout-callback-oidc"; // Caminho de retorno após logout
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        NameClaimType = "name",
-        RoleClaimType = "role"
-    };
-});
- 
+builder.Services.AddAuthentication("Bearer")
+       .AddJwtBearer("Bearer", options =>
+       {
+           options.Authority =
+             builder.Configuration["VVShop.IdentityServer:ApplicationUrl"];
+
+           options.TokenValidationParameters = new TokenValidationParameters
+           {
+               ValidateAudience = false
+           };
+       });
 
 builder.Services.AddAuthorization(options =>
 {

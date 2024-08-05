@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Logging;
 using VVShop.WebMvc.Services;
 using VVShop.WebMvc.Services.Interfaces;
 
@@ -14,7 +16,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient("ProductApi", c =>
 {
-    c.BaseAddress = new Uri(builder.Configuration[key: "ServiceUri:ProductApi"]);
+    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:ProductApi"]);
 });
 
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -25,60 +27,22 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = "Cookies";
     options.DefaultChallengeScheme = "oidc";
 })
-    .AddCookie("Cookies", c =>
-    {
-        c.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-        c.Events = new CookieAuthenticationEvents()
-        {
-            OnRedirectToAccessDenied = (context) =>
-            {
-                context.HttpContext.Response.Redirect(builder.Configuration["ServiceUri:IdentityServer"] + "/Account/AccessDenied");
-                return Task.CompletedTask;
-            }
-        };
-    })
-.AddOpenIdConnect("oidc", options =>
-{
-    options.Events.OnRemoteFailure = context =>
-    {
-        context.Response.Redirect("/");
-        context.HandleResponse();
-        return Task.FromResult(0);
-    };
-
-    options.Events.OnRedirectToIdentityProvider = context =>
-    {
-        var uri = context.ProtocolMessage.CreateAuthenticationRequestUrl();
-        Console.WriteLine("Redirecting to Identity Provider with URI: " + uri);
-        return Task.CompletedTask;
-    };
-
-    options.Events.OnTokenResponseReceived = context =>
-    {
-        Console.WriteLine("Token response received: " + context.TokenEndpointResponse);
-        return Task.CompletedTask;
-    };
-
-    options.Events.OnAuthorizationCodeReceived = context =>
-    {
-        Console.WriteLine("Authorization code received: " + context.ProtocolMessage.Code);
-        return Task.CompletedTask;
-    };
-
-    options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
-    options.MetadataAddress = $"{builder.Configuration["ServiceUri:IdentityServer"]}/.well-known/openid-configuration";
-    options.GetClaimsFromUserInfoEndpoint = true;
-    options.ClientId = "vvshop";
-    options.ClientSecret = builder.Configuration["Client:Secret"];
-    options.ResponseType = "code";
-    options.ClaimActions.MapJsonKey("role", "role", "role");
-    options.ClaimActions.MapJsonKey("sub", "sub", "sub");
-    options.TokenValidationParameters.NameClaimType = "name";
-    options.TokenValidationParameters.RoleClaimType = "role";
-    options.Scope.Add("vvshop");
-    options.SaveTokens = true;
-});
-
+    .AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
+    .AddOpenIdConnect("oidc", options =>
+    { 
+        options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.ClientId = "vvshop";
+        options.ClientSecret = builder.Configuration["Client:Secret"];
+        options.ResponseType = "code";
+        options.ClaimActions.MapJsonKey("role", "role", "role");
+        options.ClaimActions.MapJsonKey("sub", "sub", "sub");
+        options.TokenValidationParameters.NameClaimType = "name";
+        options.TokenValidationParameters.RoleClaimType = "role";
+        options.Scope.Add("vvshop");
+        options.SaveTokens = true;
+    }
+);
 
 var app = builder.Build();
 
@@ -86,7 +50,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

@@ -18,7 +18,7 @@ namespace VVShop.WebMvc.Controllers
         public IActionResult Index()
         {
             return View();
-        } 
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -26,7 +26,7 @@ namespace VVShop.WebMvc.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [Authorize] 
+        [Authorize]
         public async Task<IActionResult> Login()
         {
             var acessToken = await HttpContext.GetTokenAsync("access_token");
@@ -37,5 +37,6 @@ namespace VVShop.WebMvc.Controllers
         {
             return SignOut("Cookies", "oidc");
         }
+
     }
 }
