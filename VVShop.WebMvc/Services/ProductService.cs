@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using VVShop.WebMvc.Models;
 using VVShop.WebMvc.Services.Interfaces;
@@ -19,9 +20,11 @@ namespace VVShop.WebMvc.Services
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<IEnumerable<ProductViewModel>> GetAllProducts()
+        public async Task<IEnumerable<ProductViewModel>> GetAllProducts(string token)
         {
             var client = _clientFactory.CreateClient("ProductApi");
+
+            PutTokenInHeadAuthorization(token, client);
 
             using (var response = await client.GetAsync(apiEndPoint))
             {
@@ -38,9 +41,11 @@ namespace VVShop.WebMvc.Services
             return productsVM;
         }
 
-        public async Task<ProductViewModel> FindProductbyId(int id)
+        public async Task<ProductViewModel> FindProductbyId(int id, string token)
         {
             var client = _clientFactory.CreateClient("ProductApi");
+
+            PutTokenInHeadAuthorization(token, client);
 
             using (var response = await client.GetAsync(apiEndPoint + id))
             {
@@ -57,9 +62,11 @@ namespace VVShop.WebMvc.Services
             return productVM;
         }
 
-        public async Task<ProductViewModel> CreateProduct(ProductViewModel productVM)
+        public async Task<ProductViewModel> CreateProduct(ProductViewModel productVM, string token)
         {
             var client = _clientFactory.CreateClient("ProductApi");
+
+            PutTokenInHeadAuthorization(token, client);
 
             StringContent content = new StringContent(JsonSerializer.Serialize(productVM), Encoding.UTF8, "application/json");
 
@@ -78,9 +85,11 @@ namespace VVShop.WebMvc.Services
             return productVM;
         }
 
-        public async Task<ProductViewModel> UpdateProduct(ProductViewModel productVM)
+        public async Task<ProductViewModel> UpdateProduct(ProductViewModel productVM, string token)
         {
             var client = _clientFactory.CreateClient("ProductApi");
+
+            PutTokenInHeadAuthorization(token, client);
 
             ProductViewModel productUpdated = new ProductViewModel();
 
@@ -100,9 +109,11 @@ namespace VVShop.WebMvc.Services
 
         }
 
-        public async Task<bool> DeleteProductById(int id)
+        public async Task<bool> DeleteProductById(int id, string token)
         {
             var client = _clientFactory.CreateClient("ProductApi");
+
+            PutTokenInHeadAuthorization(token, client);
 
             using (var response = await client.DeleteAsync(apiEndPoint + id))
             {
@@ -112,6 +123,11 @@ namespace VVShop.WebMvc.Services
                 }
             }
             return false;
+        }
+
+        private static void PutTokenInHeadAuthorization(string token, HttpClient client)
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }
