@@ -7,9 +7,9 @@ using VVShop.ProductApi.VVShop.Core.Roles;
 
 namespace VVShop.ProductApi.VVShop.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -44,6 +44,7 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> GetProductPost([FromBody] ProductDTO productDto) //frombody significa que estou passando os dados do produto que estou incluindo
         {
             if (productDto is null)
@@ -57,6 +58,7 @@ namespace VVShop.ProductApi.VVShop.API.Controllers
         }
 
         [HttpPut()]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> GetProductUpdate([FromBody] ProductDTO productDto)
         { 
             if (productDto == null)

@@ -8,6 +8,7 @@ using VVShop.WebMvc.Services.Interfaces;
 
 namespace VVShop.WebMvc.Controllers
 {
+    [Authorize(Roles = Role.Admin)]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
@@ -21,9 +22,7 @@ namespace VVShop.WebMvc.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> Index()
-        {
-            
-
+        { 
             var result = await _productService.GetAllProducts(await GetAcessToken());
 
             if (result is null)
@@ -41,8 +40,7 @@ namespace VVShop.WebMvc.Controllers
             return View();
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost] 
         public async Task<IActionResult> CreateProduct(ProductViewModel productVM)
         {
             if (ModelState.IsValid)
@@ -75,8 +73,7 @@ namespace VVShop.WebMvc.Controllers
             return View(result);    
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost] 
         public async Task<IActionResult> UpdateProduct(ProductViewModel productVM)
         {
             if (ModelState.IsValid)
@@ -91,8 +88,7 @@ namespace VVShop.WebMvc.Controllers
             return View(productVM);
         }
 
-        [HttpGet]
-        [Authorize]
+        [HttpGet] 
         public async Task<ActionResult<ProductViewModel>> DeleteProduct(int id)
         {
             var result = await _productService.FindProductbyId(id, await GetAcessToken());
@@ -104,8 +100,7 @@ namespace VVShop.WebMvc.Controllers
             return View(result);
         }
 
-        [HttpPost(), ActionName("DeleteProduct")]
-        [Authorize(Roles = Role.Admin)]
+        [HttpPost(), ActionName("DeleteProduct")] 
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var result = await _productService.DeleteProductById(id, await GetAcessToken());
