@@ -11,11 +11,13 @@ namespace VVShop.WebMvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -39,6 +41,38 @@ namespace VVShop.WebMvc.Controllers
                 return View("Error");
             }
             return View(product);
+        }
+
+        [HttpPost]
+        [ActionName("ProductDetails")]
+        public async Task<ActionResult<ProductViewModel>> ProductDetailsPost(ProductViewModel productVM)
+        {
+            CartViewModel cart = new()
+            {
+                CartHeader = new CartHeaderViewModel
+                {
+                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
+                }
+            };
+
+            CartItemViewModel cartItem = new() // () = nova notação para instanciar classe
+            {
+                Quantity = productVM.Quantity,
+                ProductId = productVM.Id,
+                Product = await _productService.FindProductbyId(productVM.Id, string.Empty)
+            };
+
+            List<CartItemViewModel> cartItemsVM = new List<CartItemViewModel>();
+            cartItemsVM.Add(cartItem);
+            cart.CartItems = cartItemsVM;
+
+            var result = await _cartService.AddItemToCartAsync(cart, string.Empty);
+
+            if (result is not null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(productVM);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
