@@ -12,10 +12,15 @@ namespace VVShop.WebMvc.Models
         [Required]
         public string? Description { get; set; }
         [Required]
+        [Range(1, 9999)]
         public long Stock { get; set; }
         [Required]
-        public string? ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; }
+        [Display(Name = "Category Name")]
         public string? CategoryName { get; set; }
+        [Range(1, 100)]
+        public int Quantity { get; set; } = 1;
+        [Display(Name = "Category Id")]
         public int CategoryId { get; set; }
     }
 }
