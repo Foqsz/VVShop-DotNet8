@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackEnd", "BackEnd", "{AFCD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVShop.IdentityServer", "VVShop.IdentityServer\VVShop.IdentityServer.csproj", "{E684791C-8FD5-46D4-BC12-47CD98C14279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVShop.CartApi", "VVShop.CartApi\VVShop.CartApi.csproj", "{91FDAE00-CCD6-4380-9C8B-58A34489B06B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVShop.CartApi", "VVShop.CartApi\VVShop.CartApi.csproj", "{91FDAE00-CCD6-4380-9C8B-58A34489B06B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVShop.DiscountApi", "VVShop.DiscountApi\VVShop.DiscountApi.csproj", "{3E06E13F-CD58-4F2E-AADF-9B136E161D26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{91FDAE00-CCD6-4380-9C8B-58A34489B06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91FDAE00-CCD6-4380-9C8B-58A34489B06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91FDAE00-CCD6-4380-9C8B-58A34489B06B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E06E13F-CD58-4F2E-AADF-9B136E161D26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E06E13F-CD58-4F2E-AADF-9B136E161D26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E06E13F-CD58-4F2E-AADF-9B136E161D26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E06E13F-CD58-4F2E-AADF-9B136E161D26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{F6C16350-EF70-4A5F-BD91-75CB25AE4FE9} = {023CD912-6100-4666-AC90-E9FCF87529F6}
 		{E684791C-8FD5-46D4-BC12-47CD98C14279} = {AFCD7230-18CA-4B67-B225-883CFD10C7C3}
 		{91FDAE00-CCD6-4380-9C8B-58A34489B06B} = {AFCD7230-18CA-4B67-B225-883CFD10C7C3}
+		{3E06E13F-CD58-4F2E-AADF-9B136E161D26} = {AFCD7230-18CA-4B67-B225-883CFD10C7C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F16DBCD4-4CDA-488F-90F9-D6A3F05A75D7}
