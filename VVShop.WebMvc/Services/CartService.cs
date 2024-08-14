@@ -12,6 +12,7 @@ namespace VVShop.WebMvc.Services
         private readonly JsonSerializerOptions? _options;
         private const string apiEndpoint = "/api/cart";
         private CartViewModel cartVM = new CartViewModel();
+        private CartHeaderViewModel cartHeaderVM = new CartHeaderViewModel();
 
         public CartService(IHttpClientFactory clientFactory)
         {
@@ -107,14 +108,32 @@ namespace VVShop.WebMvc.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-        public Task<bool> ClearCartAsync(string userId, string token)
+        public async Task<bool> ClearCartAsync(string userId, string token)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CartViewModel> CheckoutAsync(CartHeaderViewModel cartHeader, string token)
+        public async Task<CartHeaderViewModel> CheckoutAsync(CartHeaderViewModel cartHeaderVM, string token)
         {
-            throw new NotImplementedException();
+            var client = _clientFactory.CreateClient("CartApi");
+            PutTokenInHeaderAuthorization(token, client);
+
+            StringContent content = new StringContent(JsonSerializer.Serialize(cartHeaderVM), Encoding.UTF8, "application/json");
+
+            using (var response = await client.PostAsync($"{apiEndpoint}/checkout/", content))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var apiResponse = await response.Content.ReadAsStreamAsync();
+                    cartHeaderVM = await JsonSerializer.DeserializeAsync<CartHeaderViewModel>(apiResponse, _options);
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return cartHeaderVM;
         }
 
         public async Task<bool> ApplyCouponAsync(CartViewModel cartVM, string token)

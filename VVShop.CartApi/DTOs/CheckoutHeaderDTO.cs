@@ -1,6 +1,6 @@
-﻿namespace VVShop.WebMvc.Models;
+﻿namespace VVShop.CartApi.DTOs;
 
-public class CartHeaderViewModel
+public class CheckoutHeaderDTO
 {
     public int Id { get; set; }
     public string UserId { get; set; } = string.Empty;
@@ -22,4 +22,7 @@ public class CartHeaderViewModel
     public string CVV { get; set; } = string.Empty;
     public string ExpireMonthYear { get; set; } = string.Empty;
 
+    //itens do carrinho
+    public int CartTotalItens { get; set; }
+    public IEnumerable<CartItemDTO>? CartItems { get; set; }
 }
